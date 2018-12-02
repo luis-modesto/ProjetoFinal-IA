@@ -16,6 +16,8 @@ vector <string> labels;
 vector <int> contAtrib;
 int contneg = 0;
 int contpos = 0;
+double acuracia = 0;
+double precisao = 0;
 
 vector <int> originais;
 map <string, int> indices;
@@ -374,11 +376,17 @@ vector < pair <double, double> > kfold(vector< vector<int> > S, int k){
 			int ret = classifica(particao[i][j], arvoreGrafo);
 			confusao[particao[i][j][particao[i][j].size()-1]][ret]++;
 		}
+
+		precisao += (double)confusao[1][1]/(double)(confusao[1][1]+confusao[0][1]);
+		acuracia += (double)(confusao[1][1]+confusao[0][0])/(double)particao[i].size();
+
 		ponto.first = (double)confusao[0][1]/(double)(confusao[0][1]+confusao[0][0]); //TFP
 		ponto.second = (double)confusao[1][1]/(double)(confusao[1][1]+confusao[1][0]); //TVP
 		pontosRetorno.push_back(ponto);
 	}
 
+	acuracia /= k;
+	precisao /= k;
 	return pontosRetorno;
 }
 
@@ -405,7 +413,12 @@ int main(){
 		for (int i = 0; i<pontos.size(); i++){
 			cout << "(" << pontos[i].first << " ; " << pontos[i].second << ")\t";
 		}
-		cout << endl;
+		cout << endl << endl;
+
+		cout << "Acuracia media: " << acuracia << endl;
+		cout << "Precisao media: " << precisao << endl;
+
+
 
 		stable_sort(pontos.begin(), pontos.end(), cmp);
 
@@ -426,7 +439,9 @@ int main(){
 				kfoldResult << " , ";
 			}
 		}
-		kfoldResult << ")\n";
+		kfoldResult << ")\n" << endl;
+		kfoldResult << "Acuracia media: " << acuracia << endl;
+		kfoldResult << "Precisao media: " << precisao << endl;
 	} else {	
 		vector < vector<int> > arvoreGrafo = le_arvore();
 
