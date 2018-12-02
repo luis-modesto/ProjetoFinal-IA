@@ -1,0 +1,103 @@
+primeira iteração:
+	vp = 26
+	vn = 15
+	fp = 14
+	fn = 2
+	TVP = 0.928
+	TFP = 0.482
+	acuracia = 0.719
+	precisao = 0.650
+
+segunda iteração:
+	vp = 19
+	vn = 8
+	fp = 22
+	fn = 8
+	TVP = 0.703
+	TFP = 0.733
+	acuracia = 0.473
+	precisao = 0.463
+
+terceira iteração
+	vp = 29
+	vn = 6
+	fp = 15
+	fn = 7
+	TVP = 0.805
+	TFP = 0.714
+	acuracia = 0.614
+	precisao = 0.659
+
+quarta iteração
+	vp = 29
+	vn = 10
+	fp = 13
+	fn = 5
+	TVP = 0.852
+	TFP = 0.565
+	acuracia = 0.684
+	precisao = 0.690
+
+quinta iteração
+	vp = 24
+	vn = 11
+	fp = 21
+	fn = 1
+	TVP = 0.960
+	TFP = 0.656
+	acuracia = 0.614
+	precisao = 0.533
+
+sexta iteração
+	vp = 28
+	vn = 5
+	fp = 17
+	fn = 7
+	TVP = 0.800
+	TFP = 0.772
+	acuracia = 0.578
+	precisao = 0.622
+	
+
+sétima iteração
+	vp = 28
+	vn = 13
+	fp = 12
+	fn = 8
+	TVP = 0.777
+	TFP = 0.480
+	acuracia = 0.719
+	precisao = 0.700
+
+oitava iteração
+	vp = 24
+	vn = 10
+	fp = 20
+	fn = 3
+	TVP = 0.888
+	TFP = 0.666
+	acuracia = 0.666
+	precisao = 0.545
+
+nona iteração
+	vp = 26
+	vn = 6
+	fp = 18
+	fn = 7
+	TVP = 0.787
+	TFP = 0.750
+	acuracia = 0.596
+	precisao = 0.590
+
+décima iteração
+	vp = 25
+	vn = 4
+	fp = 20
+	fn = 3
+	TVP = 0.892
+	TFP = 0.833
+	acuracia = 0.557
+	precisao = 0.555
+
+acuracia media: 0.622
+precisao media: 0.600

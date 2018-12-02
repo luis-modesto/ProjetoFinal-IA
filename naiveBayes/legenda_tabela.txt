@@ -1,0 +1,35 @@
+Atributo A:	Idade do homem. Transformada em atributo categórico por meio dos seguintes critérios: Acima dos 60 anos o homem é considerado infertil (II) e abaixo disso ele é considerado fértil (IF).
+
+Atributo B:	Homem pratica ou não exercício físico, 1 se pratica e 0 se não pratica.
+
+Atributo C:	Homem fuma ou não, 1 se fuma e 0 se não fuma.
+
+Atributo D:	Homem bebe ou não: 1 se bebe e 0 se não bebe.
+
+Atributo E:	Homem usa alguma droga ou não, 1 se usa e 0 se não usa.
+
+Atributo F:	Homem tem problema reprodutivo ou não, 1 se tem e 0 se não tem.
+
+Atributo G: Homem fez vasectomia ou não, 1 se fez e 0 se não fez.
+
+Atributo H: Homem foi diagnosticado ou não com alguma DST: 1 se foi o 0 se não foi.
+
+Atrubuto I: Foi dito ao homem que ele era infertil ou não : 1 se foi e 0 se não foi.
+
+Atrubuto J: Idade da mulher: Transformada em atributo categórico por meio dos seguintes critérios: Acima dos 35 anos a mulher é considerada infertil (II) e abaixo disso ela é considerada fértil (IF).
+
+Atributo K:	Mulher pratica ou não exercício físico, 1 se pratica e 0 se não pratica
+
+Atributo L:	Mulher fuma ou não, 1 se fuma e 0 se não fuma.
+
+Atributo M:	Mulher bebe ou não: 1 se bebe e 0 se não bebe.
+
+Atributo N:	Mulher usa alguma droga ou não, 1 se usa e 0 se não usa.
+
+Atributo O:	Mulher tem problema reprodutivo ou não, 1 se tem e 0 se não tem.
+
+Atributo P: Mulher teve as tubas ligadas ou não, 1 se teve e 0 se não teve.
+
+Atributo Q: Mulher foi diagnosticada com alguma DST: 1 se foi e 0 se não foi.
+
+Atributo R:	Foi dito à mulher que ela era infertil ou não : 1 se foi e 0 se não foi.
