@@ -17,3 +17,38 @@ abline(lines(aleax, aleay, pch=18, col="black", type="o"))
 
 #Adiciona legenda
 legend(0, 1, legend=c("Arvore de Decisão", "Naive Bayes"), col=c("red", "blue"), lty=1:2, cex=0.5)
+
+
+
+#######################INTEGRAIS#######################
+f = function(x){x}
+integralAlAd <- integrate(f, 0.5, 0.733333)
+integralAlNb <- integrate(f, 0.480, 0.833)
+integrate(lines(tfp2, tvp2, pch=18, col="blue", type="o"), 0.772, 0.833)
+
+integralAD <- 0
+integralAD <- integralAD + integrate(reta, 0.5, 0.518519)
+integralAD <- integralAD + integrate(reta, 0.518519, 0.6)
+integralAD <- integralAD + integrate(reta, 0.6, 0.606061)
+integralAD <- integralAD + integrate(reta, 0.606061, 0.625)
+integralAD <- integralAD + integrate(reta, 0.625, 0.636364)
+integralAD <- integralAD + integrate(reta, 0.636364, 0.652174)
+integralAD <- integralAD + integrate(reta, 0.652174, 0.703704)
+integralAD <- integralAD + integrate(reta, 0.703704, 0.733333)
+AUCAD <- integralAD - integralAlAd
+
+integralNB <- 0
+integralNB <- integralNB + integrate(reta, 0.480, 0.482)
+integralNB <- integralNB + integrate(reta, 0.482, 0.565)
+integralNB <- integralNB + integrate(reta, 0.565, 0.656)
+integralNB <- integralNB + integrate(reta, 0.656, 0.666)
+integralNB <- integralNB + integrate(reta, 0.666, 0.714)
+integralNB <- integralNB + integrate(reta, 0.714, 0.733)
+integralNB <- integralNB + integrate(reta, 0.733, 0.750)
+integralNB <- integralNB + integrate(reta, 0.750, 0.772)
+integralNB <- integralNB + integrate(reta, 0.772, 0.833)
+AUCNB <- integralNB - integralAlNb
+
+AUCAD
+AUCNB
+
