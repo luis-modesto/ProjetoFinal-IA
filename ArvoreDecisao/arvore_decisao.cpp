@@ -7,6 +7,7 @@
 #include <set>
 #include <map>
 #include <utility>
+#include <algorithm>
 
 using namespace std;
 
@@ -136,7 +137,7 @@ string criar_no(vector< vector<int> > S, set <int> desconsiderar){
 				n++;
 			}
 		}
-		if (p>=n){
+		if (p>n){
 			//retorna no positivo
 			stringstream retorno;
 			retorno << "sim" << contpos;
@@ -180,7 +181,7 @@ string criar_no(vector< vector<int> > S, set <int> desconsiderar){
 					n++;
 				}
 			}
-			if (p>=n){
+			if (p>n){
 				//cria positivo em branch v
 				saida << labels[melhor] << contAtrib[melhor] << "->sim" << contpos << "[label=" << v << "]" << endl;
 				contpos++;
@@ -327,80 +328,126 @@ int classifica(vector<int> instancia, vector < vector<int> > arvoreGrafo){
 
 /**************************Validacao************************/
 vector < pair <double, double> > kfold(vector< vector<int> > S, int k){
-	vector < vector<int> > arvoreGrafo = le_arvore();
-	
 	vector < pair<double, double> > pontosRetorno;
 	pair <double, double> ponto;
 
-	int confusao[2][2] = {{0, 0}, {0, 0}};
+	vector< vector<int> > particao[k];
 	int cont = 0;
 	int tamFold = S.size()/k;
-	
+	int p = k;
 	while(S.size()>0){
-		if (cont == tamFold && k>1){
-			ponto.first = (double)confusao[0][1]/(double)(confusao[0][1]+confusao[0][0]); //TFP
-			ponto.second = (double)confusao[1][1]/(double)(confusao[1][1]+confusao[1][0]); //TVP
-			pontosRetorno.push_back(ponto);
-			for (int i = 0; i<2; i++){
-				for (int j = 0; j<2; j++){
-					confusao[i][j] = 0;
-				}
-			}
+		if (cont == tamFold && p>1){
 			cont = 0;
-			k--;
+			p--;
 		}
 		int inst = rand()%S.size();
-		int ret = classifica(S[inst], arvoreGrafo);
-		confusao[S[inst][S[inst].size()-1]][ret]++;
+		particao[p-1].push_back(S[inst]);
 		S.erase(S.begin()+inst);
 		cont++;
 	}
 
-	ponto.first = (double)confusao[0][1]/(double)(confusao[0][1]+confusao[0][0]); //TFP
-	ponto.second = (double)confusao[1][1]/(double)(confusao[1][1]+confusao[1][0]); //TVP
-	pontosRetorno.push_back(ponto);
+
+	for (int i = 0; i<k; i++){
+		vector< vector<int> > novaBD;
+		for (int j = 0; j<k; j++){
+			if (i!=j){
+				for (int l = 0; l<particao[j].size(); l++){
+					novaBD.push_back(particao[j][l]);
+				}
+			}
+		}
+
+		originais.clear();
+		indices.clear();
+		for (int j = 0; j<contAtrib.size(); j++){
+			contAtrib[j] = 0;
+		}
+		contneg = 0;
+		contpos = 0;
+
+		criar_arvore(novaBD);
+		labels.clear();
+		vector < vector<int> > arvoreGrafo = le_arvore();
+
+		int confusao[2][2] = {{0, 0}, {0, 0}};
+		for (int j = 0; j<particao[i].size(); j++){
+			int ret = classifica(particao[i][j], arvoreGrafo);
+			confusao[particao[i][j][particao[i][j].size()-1]][ret]++;
+		}
+		ponto.first = (double)confusao[0][1]/(double)(confusao[0][1]+confusao[0][0]); //TFP
+		ponto.second = (double)confusao[1][1]/(double)(confusao[1][1]+confusao[1][0]); //TVP
+		pontosRetorno.push_back(ponto);
+	}
 
 	return pontosRetorno;
 }
 
-int main(int argc, char* argv[]){
-	if (argc>1){
-		if (atoi(argv[1])==0){
-			vector < vector <int> > S = le_entrada();
-			if (criar_arvore(S)){
-				cout << "Arvore criada com sucesso!" << endl;
-			}
-		} else if (atoi(argv[1])>1) {
-			int k = atoi(argv[1]);
-			vector< vector<int> > S = le_entrada();
-			vector <pair < double, double> > pontos = kfold(S, k);
-			cout << k << "-fold:\n";
-			for (int i = 0; i<pontos.size(); i++){
-				cout << "(" << pontos[i].first << " ; " << pontos[i].second << ")\t";
-			}
-			cout << endl;
-		} else {	
-			vector < vector<int> > arvoreGrafo = le_arvore();
+bool cmp(pair<double, double> i, pair<double, double> j){
+	return (i.first<j.first || (i.first==j.first && i.second<j.second));
+}
 
-			for (int i = 0; i<labels.size(); i++){
-				cout << labels[i] << " ";
-			}
-			cout << endl;
 
-			int entrada;
-			while(cin>>entrada, entrada!=-1){
-				int v;
-				vector <int> instancia;
-				instancia.push_back(entrada);
-				for (int i = 1; i<18; i++){
-					cin >> v;
-					instancia.push_back(v);
-				}
-				if (classifica(instancia, arvoreGrafo)==1){
-					cout << "Engravida" << endl << endl;
-				} else {
-					cout << "Nao Engravida" << endl << endl;
-				}
+int main(){
+	int op;
+	cout << "Criar Arvore de Decisao: 0\n";
+	cout << "Classificar Instancias: 1\n";
+	cout << "Executar k-fold: k>1\n";
+	cin >> op;
+	if (op==0){
+		vector < vector <int> > S = le_entrada();
+		if (criar_arvore(S)){
+			cout << "Arvore criada com sucesso!" << endl;
+		}
+	} else if (op>1) {
+		vector< vector<int> > S = le_entrada();
+		vector <pair < double, double> > pontos = kfold(S, op);
+		cout << op << "-fold:\n";
+		for (int i = 0; i<pontos.size(); i++){
+			cout << "(" << pontos[i].first << " ; " << pontos[i].second << ")\t";
+		}
+		cout << endl;
+
+		stable_sort(pontos.begin(), pontos.end(), cmp);
+
+		fstream kfoldResult;
+		kfoldResult.open("kfold.txt", ios::out);
+		kfoldResult << "tfp1 <- c(";
+		for (int i = 0; i<pontos.size(); i++){
+			kfoldResult << pontos[i].first;
+			if (i!=pontos.size()-1){
+				kfoldResult << " , ";
+			}
+		}
+		kfoldResult << ")\n";
+		kfoldResult << "tvp1 <- c(";
+		for (int i = 0; i<pontos.size(); i++){
+			kfoldResult << pontos[i].second;
+			if (i!=pontos.size()-1){
+				kfoldResult << " , ";
+			}
+		}
+		kfoldResult << ")\n";
+	} else {	
+		vector < vector<int> > arvoreGrafo = le_arvore();
+
+		for (int i = 0; i<labels.size(); i++){
+			cout << labels[i] << " ";
+		}
+		cout << endl;
+
+		int entrada;
+		while(cin>>entrada, entrada!=-1){
+			int v;
+			vector <int> instancia;
+			instancia.push_back(entrada);
+			for (int i = 1; i<18; i++){
+				cin >> v;
+				instancia.push_back(v);
+			}
+			if (classifica(instancia, arvoreGrafo)==1){
+				cout << "Engravida" << endl << endl;
+			} else {
+				cout << "Nao Engravida" << endl << endl;
 			}
 		}
 	}
